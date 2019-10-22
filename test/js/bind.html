@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function f(y) {
+        console.log(this.x + y)
+        return this.x + y
+      }
+      var o = { x: 1 }
+      var g = f.bind(o)
+      g(2)
+
+      function newBind(f, obj) {
+        return function() {
+          return f.apply(obj, arguments)
+        }
+      }
+      var ng = newBind(f, o)
+      ng(4)
+
+      // bind方法返回的函数是一个闭包
+      // 闭包的外部函数声明的selg和boundArgs变量，要在闭包里面用到7
+      Function.prototype.myBind = function(o) {
+        var self = this,
+          boundArgs = arguments
+        return function() {
+          var args = [],
+            i
+          // 组合bind方法传的参数
+          for (i = 1; i < boundArgs.length; i++) {
+            args.push(boundArgs[i])
+          }
+          // 组合this以后，传入的剩下的参数
+          for (i = 0; i < arguments.length; i++) {
+            args.push(arguments[i])
+          }
+          // args调用方法所需的全部参数
+          return self.apply(o, args)
+        }
+      }
+      var gs = f.myBind(o)
+      gs(5)
+
+      function sums(y, z, u) {
+        console.log(this.x + y + z + u)
+        return this.x + y + z + u
+      }
+
+      // bind方法的2个作用：
+      // 将函数绑定至一个对象
+      // 除了第一个实参以外，传入bind（）的实参也会绑定至this，“柯里化”
+      var oSum = sums.myBind(o, 1, 2) //this的值绑定到o, y的值绑定到1,z的值绑定到2
+      oSum(3) //u的值绑定到3
+    </script>
+  </body>
+</html>
