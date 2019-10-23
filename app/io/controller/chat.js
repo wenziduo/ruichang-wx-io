@@ -5,11 +5,14 @@
 module.exports = app => {
   return function* () {
     console.log('666666666666666666666666666666666');
-    // const self = this;
+    const { ctx, app } = this;
     const message = this.args[0];
     console.log('args', this.args);
     console.log('chat 控制器打印', message);
-    this.socket.emit('res', `Hi! I've got your message: ${message}`);
+    app.io.of('/').emit('chat', {
+      id: this.socket.id,
+      message,
+    });
     console.log('this.socket.adapter', this.socket.id);
   };
 };
