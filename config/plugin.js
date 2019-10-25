@@ -1,17 +1,17 @@
-'use strict'
+'use strict';
 
 /** @type Egg.EggPlugin */
 module.exports = {
-  // had enabled by egg
-  // static: {
-  //   enable: true,
-  // }
+  nunjucks: {
+    enable: true,
+    package: 'egg-view-nunjucks',
+  },
   redis: {
     enable: true,
-    package: 'egg-redis'
+    package: 'egg-redis',
   },
   io: {
     enable: true,
-    package: 'egg-socket.io'
-  }
-}
+    package: 'egg-socket.io',
+  },
+};

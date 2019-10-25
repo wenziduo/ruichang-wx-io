@@ -31,8 +31,12 @@ module.exports = appInfo => {
     io: {
       namespace: {
         '/': {
-          connectionMiddleware: [ 'connection', 'auth' ],
-          packetMiddleware: [ 'filter' ],
+          connectionMiddleware: [ 'auth' ],
+          packetMiddleware: [],
+        },
+        '/example': {
+          connectionMiddleware: [],
+          packetMiddleware: [],
         },
       },
       // cluster 模式下，通过 redis 实现数据共享
